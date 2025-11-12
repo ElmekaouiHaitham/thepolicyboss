@@ -3,6 +3,7 @@ import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
+import AnimatedHero from "@/components/AnimatedHero";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import { fetchBlogSummaries } from "@/lib/blogApi";
 import type { BlogSummary } from "@/types/blog";
@@ -77,43 +78,7 @@ export default async function Home() {
       <StructuredData data={[organizationSchema, websiteSchema]} />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-blue-50 py-20 sm:py-32">
-          <div className="mx-auto max-w-7xl px-4 sm:px-10 lg:px-20">
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
-              {/* Left Content */}
-              <div className="text-center lg:text-left">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl font-heading">
-                  Protect What Matters Most
-                </h1>
-                <p className="mt-6 text-xl text-gray-600 sm:text-2xl">
-                  Get a Personalized Life Insurance Quote Today
-                </p>
-                <p className="mt-4 text-lg text-gray-500">
-                  Fast, simple, and tailored to your needs in under 60 seconds.
-                </p>
-                <div className="mt-8">
-                  <a
-                    href="#quote-form"
-                    className="inline-block rounded-lg bg-[#1e3a8a] px-8 py-4 text-lg font-semibold text-white shadow-lg hover:bg-[#2563eb] transition-all transform hover:scale-105"
-                  >
-                    Get Your Free Quote
-                  </a>
-                </div>
-              </div>
-
-              {/* Right Image */}
-              <div className="relative flex justify-center lg:justify-end">
-                <div className="rounded-2xl overflow-hidden shadow-2xl bg-white/70 backdrop-blur-sm">
-                  <img
-                    src="/hero2.png"
-                    alt="Happy family representing life insurance protection"
-                    className="w-full h-auto max-w-md object-cover rounded-2xl"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <AnimatedHero />
 
         {/* Quick Lead Capture Form */}
         <section
