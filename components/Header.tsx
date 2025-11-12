@@ -43,7 +43,7 @@ export default function Header() {
               Contact
             </Link>
             <Link
-              href="#quote-form"
+              href="/#quote-form"
               className="rounded-lg bg-[#1e3a8a] px-6 py-2 text-white font-medium hover:bg-[#2563eb] transition-colors"
             >
               Get Quote
