@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function AnimatedHero() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-blue-50 py-20 sm:py-32">
+    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-blue-50 pt-10 pb-20 sm:pt-20 sm:pb-32">
       {/* Animated background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>

@@ -78,7 +78,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#quote-form" className="hover:text-white transition-colors">
+                <Link href="/#quote-form" className="hover:text-white transition-colors">
                   Get Free Quote
                 </Link>
               </li>
