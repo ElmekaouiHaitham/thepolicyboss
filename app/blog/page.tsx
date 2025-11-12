@@ -1,8 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import BlogFilter from '@/components/BlogFilter';
 import StructuredData from '@/components/StructuredData';
+import type { BlogCategory, BlogSummary } from '@/types/blog';
+import { fetchBlogSummaries } from '@/lib/blogApi';
 
 export const metadata: Metadata = {
   title: "Life Insurance Blog - Tips, Guides & Expert Advice",
@@ -21,61 +24,28 @@ export const metadata: Metadata = {
 // Force dynamic rendering to handle searchParams
 export const dynamic = 'force-dynamic';
 
-const blogPosts = [
-  {
-    slug: '5-things-to-know-before-buying-life-insurance',
-    title: '5 Things to Know Before Buying Life Insurance',
-    excerpt: 'Essential information to help you make an informed decision about life insurance. Learn about coverage types, premiums, and what to consider.',
-    category: 'Life Planning',
-    date: 'March 15, 2024',
-  },
-  {
-    slug: 'how-much-coverage-do-you-really-need',
-    title: 'How Much Coverage Do You Really Need?',
-    excerpt: 'Calculate the right amount of coverage for your unique situation and goals. We break down the factors that matter most.',
-    category: 'Insurance Tips',
-    date: 'March 10, 2024',
-  },
-  {
-    slug: 'term-vs-whole-life-insurance',
-    title: 'The Difference Between Term and Whole Life Insurance',
-    excerpt: 'Understanding the key differences between term and whole life insurance to choose the right policy for you and your family.',
-    category: 'Insurance Tips',
-    date: 'March 5, 2024',
-  },
-  {
-    slug: 'life-insurance-for-young-adults',
-    title: 'Why Young Adults Should Consider Life Insurance',
-    excerpt: 'Life insurance isn\'t just for older adults. Discover why getting coverage early can save you money and provide peace of mind.',
-    category: 'Life Planning',
-    date: 'February 28, 2024',
-  },
-  {
-    slug: 'understanding-life-insurance-premiums',
-    title: 'Understanding Life Insurance Premiums',
-    excerpt: 'Learn how premiums are calculated and what factors influence the cost of your life insurance policy.',
-    category: 'Financial Wellness',
-    date: 'February 20, 2024',
-  },
-  {
-    slug: 'beneficiary-designation-guide',
-    title: 'A Guide to Beneficiary Designation',
-    excerpt: 'Everything you need to know about naming beneficiaries and ensuring your loved ones are protected.',
-    category: 'Life Planning',
-    date: 'February 15, 2024',
-  },
-];
+function buildCategories(posts: BlogSummary[]): BlogCategory[] {
+  const categoryMap = new Map<string, BlogCategory>();
 
-const categories = ['Life Planning', 'Insurance Tips', 'Financial Wellness'];
+  posts.forEach((post) => {
+    const existing = categoryMap.get(post.category);
+    if (existing) {
+      existing.count = (existing.count ?? 0) + 1;
+      return;
+    }
 
-// Helper function to convert category name to URL slug
-function categoryToSlug(category: string): string {
-  return category.toLowerCase().replace(/\s+/g, '-');
+    categoryMap.set(post.category, {
+      name: post.category,
+      slug: post.categorySlug,
+      count: 1,
+    });
+  });
+
+  return Array.from(categoryMap.values());
 }
 
-// Helper function to convert URL slug back to category name
-function slugToCategory(slug: string): string {
-  return categories.find(cat => categoryToSlug(cat) === slug) || '';
+function slugToCategory(slug: string, categories: BlogCategory[]): string {
+  return categories.find((category) => category.slug === slug)?.name ?? '';
 }
 
 export default async function BlogPage({
@@ -85,15 +55,18 @@ export default async function BlogPage({
 }) {
   // Await searchParams (Next.js 15+)
   const params = await searchParams;
+
+  const posts = await fetchBlogSummaries();
+  const categories = buildCategories(posts);
   
   // Get the selected category from URL params
   const selectedCategorySlug = params?.category || '';
-  const selectedCategory = selectedCategorySlug ? slugToCategory(selectedCategorySlug) : '';
+  const selectedCategory = selectedCategorySlug ? slugToCategory(selectedCategorySlug, categories) : '';
 
   // Filter posts based on selected category
   const filteredPosts = selectedCategory
-    ? blogPosts.filter(post => post.category === selectedCategory)
-    : blogPosts;
+    ? posts.filter(post => post.category === selectedCategory)
+    : posts;
 
   // Breadcrumb schema for blog listing
   const breadcrumbSchema = {
@@ -176,11 +149,16 @@ export default async function BlogPage({
                   itemScope
                   itemType="https://schema.org/BlogPosting"
                 >
-                  <div 
-                    className="h-64 bg-gradient-to-br from-blue-100 to-blue-200"
-                    role="img"
-                    aria-label={`Featured image for ${post.title}`}
-                  ></div>
+                  <div className="relative h-64">
+                    <Image
+                      src={post.image}
+                      alt={`Featured image for ${post.title}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      priority={false}
+                    />
+                  </div>
                   <div className="p-6">
                     <div className="flex items-center gap-4 mb-3">
                       <span 
@@ -247,11 +225,11 @@ export default async function BlogPage({
                   </div>
                 </div>
               }>
-                <BlogFilter />
+                <BlogFilter categories={categories} />
               </Suspense>
 
               {/* CTA */}
-              <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 p-6 text-white">
+              <div className="rounded-2xl bg-linear-to-br from-blue-600 to-blue-700 p-6 text-white">
                 <h3 className="text-lg font-semibold mb-3 font-heading">
                   Get Your Free Quote
                 </h3>

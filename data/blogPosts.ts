@@ -1,0 +1,184 @@
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  image: string;
+  content: string[];
+}
+
+const blogPosts: BlogPost[] = [
+  {
+    slug: '5-things-to-know-before-buying-life-insurance',
+    title: '5 Things to Know Before Buying Life Insurance',
+    excerpt:
+      'Essential information to help you make an informed decision about life insurance. Learn about coverage types, premiums, and what to consider.',
+    category: 'Life Planning',
+    date: 'March 15, 2024',
+    image:
+      'https://images.unsplash.com/photo-1515168833906-d2a3b82b302a?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      'Buying life insurance is one of the most important financial decisions you can make. It provides peace of mind and financial security for your loved ones. However, navigating the world of life insurance can be overwhelming. Here are five essential things you should know before making a purchase.',
+      '1. Understand Your Coverage Needs',
+      "Before shopping for life insurance, take time to assess your financial situation. Consider your debts, mortgage, children's education costs, and your family's living expenses. A general rule of thumb is to have coverage that's 10-15 times your annual income, but your specific needs may vary.",
+      '2. Know the Difference Between Term and Whole Life',
+      'Term life insurance provides coverage for a specific period (usually 10, 20, or 30 years) and is generally more affordable. Whole life insurance provides permanent coverage and includes a cash value component that grows over time. Term life is often the better choice for most families, while whole life may be suitable for those with specific estate planning needs.',
+      '3. Compare Quotes from Multiple Providers',
+      "Life insurance premiums can vary significantly between providers for the same coverage. Don't settle for the first quote you receive. Shop around and compare rates from multiple insurance companies. Online comparison tools can help you quickly see different options.",
+      '4. Be Honest on Your Application',
+      "It's crucial to be completely honest when filling out your life insurance application. Any misrepresentation of your health, lifestyle, or medical history can result in denied claims or policy cancellation. The insurance company will verify your information through medical exams and records.",
+      '5. Review Your Policy Regularly',
+      "Your life insurance needs change over time. Major life events like marriage, having children, buying a home, or changing jobs may require adjusting your coverage. Review your policy annually or whenever you experience significant life changes to ensure it still meets your needs.",
+      "Getting the right life insurance doesn't have to be complicated. By understanding these key points and working with a trusted advisor, you can find coverage that protects your family without breaking the bank.",
+    ],
+  },
+  {
+    slug: 'how-much-coverage-do-you-really-need',
+    title: 'How Much Coverage Do You Really Need?',
+    excerpt:
+      'Calculate the right amount of coverage for your unique situation and goals. We break down the factors that matter most.',
+    category: 'Insurance Tips',
+    date: 'March 10, 2024',
+    image:
+      'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      "Determining the right amount of life insurance coverage is one of the most critical decisions you'll make. Too little coverage leaves your family vulnerable, while too much can strain your budget unnecessarily. Here's how to calculate the coverage you really need.",
+      'The DIME Method',
+      'One popular approach is the DIME method, which stands for Debt, Income, Mortgage, and Education. Add up your total debts, multiply your annual income by the number of years your family would need support, include your mortgage balance, and factor in future education costs for your children.',
+      'The 10x Rule',
+      "A simpler approach is the 10x rule: multiply your annual income by 10. For example, if you earn $50,000 per year, you'd aim for $500,000 in coverage. This is a quick estimate, but it may not account for your specific circumstances.",
+      "Consider Your Family's Needs",
+      "Think about your family's unique situation. Do you have young children who will need support for many years? Are there special needs to consider? What about your spouse's earning potential? These factors all influence how much coverage you need.",
+      'Factor in Existing Assets',
+      "Don't forget to subtract any existing assets, savings, or other insurance policies from your total coverage needs. If you already have significant savings or investments, you may need less life insurance coverage.",
+      'Review and Adjust',
+      'Remember that your coverage needs will change over time. As you pay down debts, build savings, and your children grow older, you may need less coverage. Review your policy regularly and adjust as needed.',
+      "The right amount of coverage is unique to your situation. Consider working with a licensed insurance professional who can help you calculate your specific needs based on your financial goals and family circumstances.",
+    ],
+  },
+  {
+    slug: 'term-vs-whole-life-insurance',
+    title: 'The Difference Between Term and Whole Life Insurance',
+    excerpt:
+      'Understanding the key differences between term and whole life insurance to choose the right policy for you and your family.',
+    category: 'Insurance Tips',
+    date: 'March 5, 2024',
+    image:
+      'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      "When shopping for life insurance, you'll encounter two main types: term life and whole life insurance. Understanding the differences between these options is crucial to making the right choice for your needs and budget.",
+      'Term Life Insurance',
+      'Term life insurance provides coverage for a specific period, typically 10, 20, or 30 years. If you die during the term, your beneficiaries receive the death benefit. If you outlive the term, the policy expires with no payout.',
+      'Advantages of term life include lower premiums, simplicity, and flexibility. It\'s ideal for covering specific financial obligations like a mortgage or children\'s education. Most families find term life insurance provides the best value.',
+      'Whole Life Insurance',
+      'Whole life insurance provides permanent coverage that lasts your entire lifetime, as long as you pay the premiums. In addition to the death benefit, whole life policies include a cash value component that grows over time on a tax-deferred basis.',
+      'The cash value can be borrowed against or withdrawn, though this reduces the death benefit. Whole life premiums are significantly higher than term life, but the policy builds equity over time.',
+      'Which Should You Choose?',
+      'For most people, term life insurance is the better choice. It provides substantial coverage at an affordable price, which is exactly what most families need. Term life allows you to protect your family during your peak earning years when financial obligations are highest.',
+      'Whole life insurance may make sense if you have permanent coverage needs, want to build cash value, or have specific estate planning goals. However, it\'s important to understand that whole life is more expensive and the cash value growth is typically modest.',
+      'The Bottom Line',
+      "The best choice depends on your financial situation, goals, and budget. For most families, term life insurance provides the protection they need at a price they can afford. If you're unsure, speak with a licensed insurance professional who can help you evaluate your options.",
+    ],
+  },
+  {
+    slug: 'life-insurance-for-young-adults',
+    title: 'Why Young Adults Should Consider Life Insurance',
+    excerpt:
+      "Life insurance isn't just for older adults. Discover why getting coverage early can save you money and provide peace of mind.",
+    category: 'Life Planning',
+    date: 'February 28, 2024',
+    image:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      "Many young adults think life insurance is something they don't need to worry about until later in life. However, getting coverage while you're young can provide significant advantages and peace of mind.",
+      'Lower Premiums',
+      "One of the biggest advantages of buying life insurance when you're young is lower premiums. Insurance companies base premiums largely on age and health. The younger and healthier you are, the less you'll pay. Locking in a low rate now can save you thousands over the life of the policy.",
+      'Protecting Your Future',
+      "Even if you don't have dependents yet, you may have student loans, credit card debt, or other financial obligations. Life insurance can ensure these debts don't burden your family if something happens to you. Additionally, you may have co-signed loans with parents or others who would be responsible for repayment.",
+      'Health Benefits',
+      "Your health is typically at its best when you're young. As you age, health conditions can develop that make insurance more expensive or even unattainable. Getting coverage while you're healthy ensures you have protection regardless of future health changes.",
+      'Planning Ahead',
+      "If you plan to have a family someday, getting life insurance now means you'll already have coverage in place when you need it most. You won't have to worry about qualifying for insurance when you're starting a family and may have less time to shop around.",
+      'Building Financial Habits',
+      "Starting a life insurance policy early helps build good financial habits. It demonstrates responsibility and forward thinking, and the small monthly premium is often more manageable when you're just starting your career.",
+      "Getting started with life insurance doesn't have to be complicated or expensive. Even a small term life policy can provide valuable protection and peace of mind. Consider speaking with an insurance professional to explore your options.",
+    ],
+  },
+  {
+    slug: 'understanding-life-insurance-premiums',
+    title: 'Understanding Life Insurance Premiums',
+    excerpt:
+      'Learn how premiums are calculated and what factors influence the cost of your life insurance policy.',
+    category: 'Financial Wellness',
+    date: 'February 20, 2024',
+    image:
+      'https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      "Life insurance premiums can seem mysterious, but understanding how they're calculated can help you make better decisions and potentially save money. Here's what you need to know about how insurance companies determine your premium.",
+      'Age and Health',
+      'Your age is one of the most significant factors in determining your premium. The younger you are, the lower your premium will be. Your health status also plays a crucial role. Insurance companies evaluate your medical history, current health conditions, and lifestyle factors like smoking or high-risk activities.',
+      'Coverage Amount and Type',
+      'The amount of coverage you choose directly impacts your premium. More coverage means higher premiums. Additionally, the type of policy (term vs. whole life) affects cost. Term life insurance is typically much more affordable than whole life insurance for the same coverage amount.',
+      'Policy Term Length',
+      'For term life insurance, longer terms (like 30 years) cost more than shorter terms (like 10 years) because the insurance company is taking on risk for a longer period. However, longer terms provide more stability as your premium is locked in for the entire term.',
+      'Gender and Lifestyle',
+      'Statistically, women tend to live longer than men, so they typically pay lower premiums. Your lifestyle choices, including smoking, alcohol consumption, and participation in high-risk activities, can significantly increase your premiums.',
+      'Family Medical History',
+      "Your family's medical history can also influence your premium. If you have a family history of certain conditions, insurance companies may view you as higher risk and adjust your premium accordingly.",
+      'Ways to Lower Your Premium',
+      'There are several ways to potentially lower your life insurance premium: maintain a healthy lifestyle, quit smoking, choose term life over whole life, select an appropriate coverage amount, and compare quotes from multiple providers.',
+      "Understanding how premiums are calculated empowers you to make informed decisions. Remember, the cheapest policy isn't always the best—focus on finding the right balance of coverage and cost for your specific needs.",
+    ],
+  },
+  {
+    slug: 'beneficiary-designation-guide',
+    title: 'A Guide to Beneficiary Designation',
+    excerpt:
+      'Everything you need to know about naming beneficiaries and ensuring your loved ones are protected.',
+    category: 'Life Planning',
+    date: 'February 15, 2024',
+    image:
+      'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+    content: [
+      'Naming beneficiaries is one of the most important steps when setting up your life insurance policy. Your beneficiaries are the people or entities who will receive the death benefit when you pass away. Here\'s what you need to know to ensure your loved ones are properly protected.',
+      'Primary vs. Contingent Beneficiaries',
+      'A primary beneficiary is the first person or entity who will receive the death benefit. You can name multiple primary beneficiaries and specify what percentage each should receive. Contingent beneficiaries receive the benefit only if all primary beneficiaries are deceased or unable to receive the funds.',
+      'Naming Specific Beneficiaries',
+      'Be as specific as possible when naming beneficiaries. Include full legal names, dates of birth, and Social Security numbers when possible. This helps prevent confusion and delays in processing the claim. Avoid vague designations like "my children" without specifying names.',
+      'Special Considerations',
+      "If you want to leave money to minor children, consider setting up a trust or naming a guardian. Minors cannot directly receive life insurance proceeds, so the funds would be held in a court-supervised account until they reach adulthood. A trust provides more control and flexibility.",
+      'Updating Your Beneficiaries',
+      'Life changes require beneficiary updates. Marriage, divorce, birth of children, or the death of a beneficiary all warrant reviewing and updating your policy. Review your beneficiaries annually or whenever you experience major life events.',
+      'Tax Implications',
+      'Generally, life insurance death benefits are not taxable income for beneficiaries. However, if the policy is part of a large estate, there may be estate tax considerations. Consult with a tax professional if you have concerns about estate taxes.',
+      'Keeping It Current',
+      "One of the most common mistakes is forgetting to update beneficiaries after major life changes. An outdated beneficiary designation can cause the death benefit to go to an ex-spouse or someone you no longer want to benefit. Make it a habit to review your beneficiaries regularly.",
+      "Proper beneficiary designation ensures your life insurance proceeds go to the right people at the right time. Take the time to carefully consider and document your choices, and don't forget to review them periodically.",
+    ],
+  },
+];
+
+export function getBlogPosts() {
+  return blogPosts;
+}
+
+export function getBlogPostBySlug(slug: string) {
+  return blogPosts.find((post) => post.slug === slug) ?? null;
+}
+
+export function getBlogCategories() {
+  return Array.from(new Set(blogPosts.map((post) => post.category))).sort();
+}
+
+export function categoryToSlug(category: string) {
+  return category.toLowerCase().replace(/\s+/g, '-');
+}
+
+export function slugToCategory(slug: string) {
+  return (
+    blogPosts.find((post) => categoryToSlug(post.category) === slug)?.category ??
+    ''
+  );
+}
+
