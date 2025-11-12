@@ -39,7 +39,7 @@ export default function AnimatedHero() {
           <div className="relative flex justify-center lg:justify-end animate-fade-in-up animation-delay-600">
             <div className="rounded-2xl overflow-hidden shadow-2xl bg-white/70 backdrop-blur-sm animate-float">
               <Image
-                src="/hero2.png"
+                src="/hero2.avif"
                 alt="Happy family representing life insurance protection"
                 width={500}
                 height={500}
