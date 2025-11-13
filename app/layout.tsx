@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Policy Boss - Simple, Smart, Secure Life Insurance",
     description: "Get a personalized life insurance quote in under 60 seconds.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.png"],
     creator: "@thepolicyboss",
   },
   robots: {
