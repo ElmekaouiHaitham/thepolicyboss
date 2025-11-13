@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -57,7 +58,16 @@ export default function AboutPage() {
           <div className="rounded-2xl bg-white p-8 shadow-lg">
             <div className="flex flex-col md:flex-row gap-8">
               <div className="shrink-0">
-                <div className="h-32 w-32 rounded-full bg-linear-to-br from-[#f3ecff] to-[#e4d4ff] mx-auto md:mx-0"></div>
+                <div className="relative h-32 w-32 rounded-full bg-linear-to-br from-[#f3ecff] to-[#e4d4ff] mx-auto md:mx-0 overflow-hidden">
+                  <Image
+                    src="/mission.jpg"
+                    alt="The Policy Boss mission"
+                    fill
+                    className="object-cover"
+                    sizes="128px"
+                    priority
+                  />
+                </div>
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4 font-heading">

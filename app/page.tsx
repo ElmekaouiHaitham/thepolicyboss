@@ -7,6 +7,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import { fetchBlogSummaries } from "@/lib/blogApi";
 import type { BlogSummary } from "@/types/blog";
+import { socialLinks } from "@/lib/socialLinks";
 
 export const metadata: Metadata = {
   title: "Get Your Free Life Insurance Quote in 60 Seconds",
@@ -47,9 +48,10 @@ export default async function Home() {
       availableLanguage: "English",
     },
     sameAs: [
-      "https://www.facebook.com/thepolicyboss",
+      socialLinks.facebook,
       "https://www.twitter.com/thepolicyboss",
       "https://www.linkedin.com/company/thepolicyboss",
+      socialLinks.instagram,
     ],
   };
 
