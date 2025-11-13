@@ -19,7 +19,7 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16">
+      <section className="bg-linear-to-br from-[#faf7ff] via-white to-[#faf7ff] py-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl font-heading">
             About The Policy Boss
@@ -56,8 +56,8 @@ export default function AboutPage() {
           </h2>
           <div className="rounded-2xl bg-white p-8 shadow-lg">
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-shrink-0">
-                <div className="h-32 w-32 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 mx-auto md:mx-0"></div>
+              <div className="shrink-0">
+                <div className="h-32 w-32 rounded-full bg-linear-to-br from-[#f3ecff] to-[#e4d4ff] mx-auto md:mx-0"></div>
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4 font-heading">
@@ -89,9 +89,9 @@ export default function AboutPage() {
           </h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#f3ecff]">
                 <svg
-                  className="h-8 w-8 text-blue-600"
+                  className="h-8 w-8 text-[#261538]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -114,9 +114,9 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#f3ecff]">
                 <svg
-                  className="h-8 w-8 text-blue-600"
+                  className="h-8 w-8 text-[#261538]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -139,9 +139,9 @@ export default function AboutPage() {
             </div>
 
             <div className="text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#f3ecff]">
                 <svg
-                  className="h-8 w-8 text-blue-600"
+                  className="h-8 w-8 text-[#261538]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -173,7 +173,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#1e3a8a] to-[#2563eb] text-white">
+      <section className="py-16 bg-linear-to-r from-[#261538] to-[#3b205d] text-white">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold sm:text-4xl font-heading">
             Ready to Get Started?
@@ -184,7 +184,7 @@ export default function AboutPage() {
           <div className="mt-8">
             <Link
               href="/#quote-form"
-              className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-[#1e3a8a] shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+              className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-[#261538] shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105"
             >
               Start Your Free Quote
             </Link>

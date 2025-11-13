@@ -236,7 +236,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="mb-8">
           <Link
             href="/blog"
-            className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-2 mb-4"
+            className="text-[#3b205d] hover:text-[#261538] inline-flex items-center gap-2 mb-4"
           >
             <svg
               className="w-4 h-4"
@@ -254,7 +254,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             Back to Blog
           </Link>
           <div className="flex items-center gap-4 mb-4">
-            <span className="px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full" itemProp="articleSection">
+            <span className="px-3 py-1 text-sm font-semibold text-[#3b205d] bg-[#f3ecff] rounded-full" itemProp="articleSection">
               {post.category}
             </span>
             <time 
@@ -284,9 +284,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         {/* Table of Contents */}
         {toc.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-linear-to-br from-blue-50 to-blue-100 border border-blue-200 p-6 shadow-sm">
+          <div className="mb-8 rounded-2xl bg-linear-to-br from-[#faf7ff] to-[#f3ecff] border border-[#e4d4ff] p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-gray-900 mb-4 font-heading flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-[#261538]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
               Table of Contents
@@ -297,11 +297,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   <li key={item.id}>
                     <a
                       href={`#${item.id}`}
-                      className="text-blue-700 hover:text-blue-800 hover:bg-blue-50 rounded-lg px-3 py-2 transition-all flex items-start gap-3 group"
+                      className="text-[#261538] hover:text-[#3b205d] hover:bg-[#f5efff] rounded-lg px-3 py-2 transition-all flex items-start gap-3 group"
                     >
-                      <span className="text-blue-500 font-semibold mt-0.5 min-w-[24px] group-hover:text-blue-600">{index + 1}.</span>
+                      <span className="text-[#6f4ba1] font-semibold mt-0.5 min-w-[24px] group-hover:text-[#3b205d]">{index + 1}.</span>
                       <span className="flex-1">{item.text}</span>
-                      <svg className="w-4 h-4 text-blue-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-[#9a7cc9] mt-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </a>
@@ -338,7 +338,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       <span>{section.text}</span>
                       <a
                         href={`#${section.id}`}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500 hover:text-blue-600"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-[#6f4ba1] hover:text-[#3b205d]"
                         aria-label={`Link to ${section.text}`}
                         aria-hidden="true"
                       >
@@ -347,7 +347,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         </svg>
                       </a>
                     </HeadingTag>
-                    <div className="h-1 w-20 bg-linear-to-r from-blue-500 to-blue-300 rounded-full"></div>
+                    <div className="h-1 w-20 bg-linear-to-r from-[#3b205d] to-[#7c57b3] rounded-full"></div>
                   </div>
                 );
               }
@@ -361,7 +361,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </div>
 
           {/* CTA Box */}
-          <div className="mt-12 rounded-lg bg-linear-to-r from-blue-50 to-blue-100 p-6 border-l-4 border-blue-600">
+          <div className="mt-12 rounded-lg bg-linear-to-r from-[#faf7ff] to-[#f3ecff] p-6 border-l-4 border-[#261538]">
             <h3 className="text-xl font-semibold text-gray-900 mb-2 font-heading">
               Ready to Get Your Personalized Quote?
             </h3>
@@ -370,7 +370,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </p>
             <Link
               href="/#quote-form"
-              className="inline-block rounded-lg bg-[#1e3a8a] px-6 py-3 text-white font-semibold hover:bg-[#2563eb] transition-colors"
+              className="inline-block rounded-lg bg-[#261538] px-6 py-3 text-white font-semibold hover:bg-[#3b205d] transition-colors"
             >
               Get a Quote Now
             </Link>
@@ -380,7 +380,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm font-medium text-gray-700 mb-3">Share this article:</p>
             <div className="flex gap-4">
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#261538] text-white hover:bg-[#3b205d] transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>

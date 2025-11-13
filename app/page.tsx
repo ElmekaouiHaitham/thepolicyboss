@@ -96,7 +96,7 @@ export default async function Home() {
 
         {/* Why Choose The Policy Boss */}
         <section
-          className="py-16 bg-linear-to-b from-white to-blue-50"
+          className="py-16 bg-linear-to-b from-white to-[#faf7ff]"
           aria-labelledby="why-choose-heading"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -113,9 +113,9 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
               <div className="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f3ecff]">
                   <svg
-                    className="h-6 w-6 text-blue-600"
+                    className="h-6 w-6 text-[#261538]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -138,9 +138,9 @@ export default async function Home() {
               </div>
 
               <div className="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f3ecff]">
                   <svg
-                    className="h-6 w-6 text-blue-600"
+                    className="h-6 w-6 text-[#261538]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -163,9 +163,9 @@ export default async function Home() {
               </div>
 
               <div className="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f3ecff]">
                   <svg
-                    className="h-6 w-6 text-blue-600"
+                    className="h-6 w-6 text-[#261538]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -188,9 +188,9 @@ export default async function Home() {
               </div>
 
               <div className="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f3ecff]">
                   <svg
-                    className="h-6 w-6 text-blue-600"
+                    className="h-6 w-6 text-[#261538]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -234,8 +234,8 @@ export default async function Home() {
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-                  <span className="text-3xl font-bold text-blue-600">1</span>
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#f3ecff]">
+                  <span className="text-3xl font-bold text-[#261538]">1</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3 font-heading">
                   Fill Out Your Info
@@ -247,8 +247,8 @@ export default async function Home() {
               </div>
 
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-                  <span className="text-3xl font-bold text-blue-600">2</span>
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#f3ecff]">
+                  <span className="text-3xl font-bold text-[#261538]">2</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3 font-heading">
                   We Match You with the Best Plans
@@ -260,8 +260,8 @@ export default async function Home() {
               </div>
 
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
-                  <span className="text-3xl font-bold text-blue-600">3</span>
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#f3ecff]">
+                  <span className="text-3xl font-bold text-[#261538]">3</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3 font-heading">
                   Get Your Quote Instantly or via Email
@@ -277,7 +277,7 @@ export default async function Home() {
 
         {/* Testimonials / Trust Section */}
         <section
-          className="py-16 bg-linear-to-b from-blue-50 to-white"
+          className="py-16 bg-linear-to-b from-[#faf7ff] to-white"
           aria-labelledby="testimonials-heading"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -309,7 +309,7 @@ export default async function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <svg
-                  className="h-5 w-5 text-blue-600"
+                  className="h-5 w-5 text-[#261538]"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -350,7 +350,7 @@ export default async function Home() {
                   </p>
                   <Link
                     href="/blog"
-                    className="text-blue-600 font-medium hover:text-blue-700 transition-colors"
+                    className="text-[#3b205d] font-medium hover:text-[#261538] transition-colors"
                   >
                     Visit the blog →
                   </Link>
@@ -372,8 +372,8 @@ export default async function Home() {
                       />
                     </div>
                     <div className="p-6">
-                      <div className="mb-3 flex items-center gap-3 text-sm text-blue-600 font-semibold">
-                        <span className="rounded-full bg-blue-100 px-3 py-1">
+                      <div className="mb-3 flex items-center gap-3 text-sm text-[#3b205d] font-semibold">
+                        <span className="rounded-full bg-[#f3ecff] px-3 py-1">
                           {post.category}
                         </span>
                         <time className="text-gray-500 font-normal">
@@ -383,7 +383,7 @@ export default async function Home() {
                       <h3 className="text-xl font-semibold text-gray-900 mb-2 font-heading">
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="hover:text-blue-600 transition-colors"
+                          className="hover:text-[#3b205d] transition-colors"
                         >
                           {post.title}
                         </Link>
@@ -391,7 +391,7 @@ export default async function Home() {
                       <p className="text-gray-600 mb-4">{post.excerpt}</p>
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="text-blue-600 font-medium hover:text-blue-700 inline-flex items-center gap-2 transition-colors"
+                        className="text-[#3b205d] font-medium hover:text-[#261538] inline-flex items-center gap-2 transition-colors"
                         aria-label={`Read more about ${post.title}`}
                       >
                         Read More
@@ -418,7 +418,7 @@ export default async function Home() {
         </section>
 
         {/* Final Call-to-Action */}
-        <section className="py-16 bg-linear-to-r from-[#1e3a8a] to-[#2563eb] text-white">
+        <section className="py-16 bg-linear-to-r from-[#261538] to-[#3b205d] text-white">
           <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold sm:text-4xl font-heading">
               Ready to secure your future?
@@ -427,7 +427,7 @@ export default async function Home() {
             <div className="mt-8">
               <a
                 href="#quote-form"
-                className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-[#1e3a8a] shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+                className="inline-block rounded-lg bg-white px-8 py-4 text-lg font-semibold text-[#261538] shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105"
               >
                 Get My Free Quote
               </a>

@@ -35,8 +35,8 @@ export default function BlogFilter({ categories }: { categories: BlogCategory[] 
             href="/blog"
             className={`block px-3 py-2 rounded-lg transition-colors ${
               !selectedCategory
-                ? 'bg-blue-50 text-blue-700 font-semibold'
-                : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+                ? 'bg-[#faf7ff] text-[#261538] font-semibold'
+                : 'text-gray-600 hover:text-[#3b205d] hover:bg-gray-50'
             }`}
           >
             All Categories
@@ -51,18 +51,18 @@ export default function BlogFilter({ categories }: { categories: BlogCategory[] 
                 href={`/blog?category=${categorySlug}`}
                 className={`flex items-center justify-between gap-2 px-3 py-2 rounded-lg transition-colors ${
                   isActive
-                    ? 'bg-blue-50 text-blue-700 font-semibold'
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
+                    ? 'bg-[#faf7ff] text-[#261538] font-semibold'
+                    : 'text-gray-600 hover:text-[#3b205d] hover:bg-gray-50'
                 }`}
               >
                 <span>{category.name}</span>
                 {typeof category.count === 'number' && (
-                  <span className="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+                  <span className="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-[#f3ecff] px-2 py-0.5 text-xs font-semibold text-[#3b205d]">
                     {category.count}
                   </span>
                 )}
                 {isActive && (
-                  <span className="ml-2 text-blue-500">✓</span>
+                  <span className="ml-2 text-[#6f4ba1]">✓</span>
                 )}
               </Link>
             </li>

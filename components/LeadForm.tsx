@@ -2,12 +2,67 @@
 
 import { useState, FormEvent } from 'react';
 
+const US_STATES = [
+  'Alabama',
+  'Alaska',
+  'Arizona',
+  'Arkansas',
+  'California',
+  'Colorado',
+  'Connecticut',
+  'Delaware',
+  'Florida',
+  'Georgia',
+  'Hawaii',
+  'Idaho',
+  'Illinois',
+  'Indiana',
+  'Iowa',
+  'Kansas',
+  'Kentucky',
+  'Louisiana',
+  'Maine',
+  'Maryland',
+  'Massachusetts',
+  'Michigan',
+  'Minnesota',
+  'Mississippi',
+  'Missouri',
+  'Montana',
+  'Nebraska',
+  'Nevada',
+  'New Hampshire',
+  'New Jersey',
+  'New Mexico',
+  'New York',
+  'North Carolina',
+  'North Dakota',
+  'Ohio',
+  'Oklahoma',
+  'Oregon',
+  'Pennsylvania',
+  'Rhode Island',
+  'South Carolina',
+  'South Dakota',
+  'Tennessee',
+  'Texas',
+  'Utah',
+  'Vermont',
+  'Virginia',
+  'Washington',
+  'West Virginia',
+  'Wisconsin',
+  'Wyoming',
+];
+
 export default function LeadForm() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
-    ageRange: '',
+    birthDate: '',
+    residentState: '',
+    budget: '',
     coverageType: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +91,9 @@ export default function LeadForm() {
         fullName: '',
         email: '',
         phone: '',
-        ageRange: '',
+        birthDate: '',
+        residentState: '',
+        budget: '',
         coverageType: '',
       });
     } catch (error) {
@@ -75,7 +132,7 @@ export default function LeadForm() {
             required
             value={formData.fullName}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
             placeholder="John Doe"
           />
         </div>
@@ -91,7 +148,7 @@ export default function LeadForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
             placeholder="john@example.com"
           />
         </div>
@@ -107,31 +164,61 @@ export default function LeadForm() {
             required
             value={formData.phone}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
             placeholder="(555) 123-4567"
           />
         </div>
 
         <div>
-          <label htmlFor="ageRange" className="block text-sm font-medium text-gray-700 mb-1">
-            Age Range *
+          <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 mb-1">
+            Birthdate *
+          </label>
+          <input
+            type="date"
+            id="birthDate"
+            name="birthDate"
+            required
+            value={formData.birthDate}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="residentState" className="block text-sm font-medium text-gray-700 mb-1">
+            Resident State *
           </label>
           <select
-            id="ageRange"
-            name="ageRange"
+            id="residentState"
+            name="residentState"
             required
-            value={formData.ageRange}
+            value={formData.residentState}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
           >
-            <option value="">Select age range</option>
-            <option value="18-25">18-25</option>
-            <option value="26-35">26-35</option>
-            <option value="36-45">36-45</option>
-            <option value="46-55">46-55</option>
-            <option value="56-65">56-65</option>
-            <option value="65+">65+</option>
+            <option value="">Select your state</option>
+            {US_STATES.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
           </select>
+        </div>
+
+        <div>
+          <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-1">
+            Monthly Budget *
+          </label>
+          <input
+            type="text"
+            id="budget"
+            name="budget"
+            required
+            value={formData.budget}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
+            placeholder="e.g. $75 per month"
+          />
         </div>
 
         <div>
@@ -144,21 +231,21 @@ export default function LeadForm() {
             required
             value={formData.coverageType}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
           >
             <option value="">Select coverage type</option>
-            <option value="life">Life Insurance</option>
-            <option value="family">Family Insurance</option>
-            <option value="health">Health Insurance</option>
-            <option value="investment">Investment-Based</option>
-            <option value="other">Other</option>
+            <option value="final-expense">Final Expense</option>
+            <option value="whole-life">Whole Life</option>
+            <option value="mortgage-protection">Mortgage Protection</option>
+            <option value="childrens-whole-life">Children's Whole Life</option>
+            <option value="indexed-universal-life">Indexed Universal Life</option>
           </select>
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-lg bg-[#1e3a8a] px-6 py-4 text-lg font-semibold text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="w-full rounded-lg bg-[#261538] px-6 py-4 text-lg font-semibold text-white hover:bg-[#3b205d] focus:outline-none focus:ring-2 focus:ring-[#3b205d] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {isSubmitting ? 'Submitting...' : 'See My Options'}
         </button>

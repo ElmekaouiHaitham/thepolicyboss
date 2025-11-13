@@ -133,7 +133,7 @@ export default function TestimonialCarousel() {
         {/* Center testimonial (larger) - always visible */}
         <div className="z-10 w-full max-w-md sm:max-w-lg md:min-w-[320px] lg:min-w-[380px]">
           <blockquote
-            className={`rounded-2xl bg-white p-6 md:p-8 shadow-2xl transition-all duration-700 ease-in-out border border-transparent md:border-2 md:border-blue-200 ${
+            className={`rounded-2xl bg-white p-6 md:p-8 shadow-2xl transition-all duration-700 ease-in-out border border-transparent md:border-2 md:border-[#e4d4ff] ${
               isTransitioning ? 'scale-105' : ''
             }`}
             style={{
@@ -201,7 +201,7 @@ export default function TestimonialCarousel() {
             onClick={() => handleDotClick(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
               index === currentIndex
-                ? 'w-8 bg-blue-600'
+                ? 'w-8 bg-[#261538]'
                 : 'w-2 bg-gray-300 hover:bg-gray-400'
             }`}
             aria-label={`Go to testimonial ${index + 1}`}

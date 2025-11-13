@@ -111,11 +111,11 @@ export default async function BlogPage({
           </p>
           {selectedCategory && (
             <div className="mt-4">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#f3ecff] text-[#261538] rounded-full text-sm font-medium">
                 Filtered by: {selectedCategory}
                 <Link
                   href="/blog"
-                  className="hover:text-blue-900"
+                  className="hover:text-[#261538]"
                   aria-label="Clear filter"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@ export default async function BlogPage({
                 <p className="text-gray-600 text-lg mb-4">No posts found in this category.</p>
                 <Link
                   href="/blog"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-[#3b205d] hover:text-[#261538] font-medium"
                 >
                   View all posts →
                 </Link>
@@ -162,7 +162,7 @@ export default async function BlogPage({
                   <div className="p-6">
                     <div className="flex items-center gap-4 mb-3">
                       <span 
-                        className="px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full"
+                        className="px-3 py-1 text-xs font-semibold text-[#3b205d] bg-[#f3ecff] rounded-full"
                         itemProp="articleSection"
                       >
                         {post.category}
@@ -178,7 +178,7 @@ export default async function BlogPage({
                     <h2 className="text-2xl font-semibold text-gray-900 mb-3 font-heading">
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="hover:text-blue-600 transition-colors"
+                        className="hover:text-[#3b205d] transition-colors"
                         itemProp="url"
                       >
                         <span itemProp="headline">{post.title}</span>
@@ -187,7 +187,7 @@ export default async function BlogPage({
                     <p className="text-gray-600 mb-4" itemProp="description">{post.excerpt}</p>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="text-blue-600 font-medium hover:text-blue-700 inline-flex items-center gap-2"
+                      className="text-[#3b205d] font-medium hover:text-[#261538] inline-flex items-center gap-2"
                     >
                       Read More
                       <svg
@@ -229,16 +229,16 @@ export default async function BlogPage({
               </Suspense>
 
               {/* CTA */}
-              <div className="rounded-2xl bg-linear-to-br from-blue-600 to-blue-700 p-6 text-white">
+              <div className="rounded-2xl bg-linear-to-br from-[#261538] to-[#3b205d] p-6 text-white">
                 <h3 className="text-lg font-semibold mb-3 font-heading">
                   Get Your Free Quote
                 </h3>
-                <p className="text-sm mb-4 text-blue-100">
+                <p className="text-sm mb-4 text-[#e4d4ff]">
                   Ready to protect what matters most? Get a personalized quote in under 60 seconds.
                 </p>
                 <Link
                   href="/#quote-form"
-                  className="block text-center rounded-lg bg-white px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 transition-colors"
+                  className="block text-center rounded-lg bg-white px-4 py-2 text-[#261538] font-semibold hover:bg-gray-100 transition-colors"
                 >
                   Get Quote
                 </Link>

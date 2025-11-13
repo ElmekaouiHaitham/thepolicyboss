@@ -75,7 +75,7 @@ export default function ContactPage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
                   placeholder="Your name"
                 />
               </div>
@@ -91,7 +91,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all"
                   placeholder="your@email.com"
                 />
               </div>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 transition-all resize-none"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#261538] focus:outline-none focus:ring-2 focus:ring-[#261538]/20 transition-all resize-none"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -115,7 +115,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-lg bg-[#1e3a8a] px-6 py-3 text-white font-semibold hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="w-full rounded-lg bg-[#261538] px-6 py-3 text-white font-semibold hover:bg-[#3b205d] focus:outline-none focus:ring-2 focus:ring-[#3b205d] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
@@ -142,9 +142,9 @@ export default function ContactPage() {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f3ecff]">
                     <svg
-                      className="h-5 w-5 text-blue-600"
+                      className="h-5 w-5 text-[#261538]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -164,9 +164,9 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f3ecff]">
                     <svg
-                      className="h-5 w-5 text-blue-600"
+                      className="h-5 w-5 text-[#261538]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -186,9 +186,9 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f3ecff]">
                     <svg
-                      className="h-5 w-5 text-blue-600"
+                      className="h-5 w-5 text-[#261538]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -209,16 +209,16 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 p-8 text-white">
+            <div className="rounded-2xl bg-linear-to-br from-[#261538] to-[#3b205d] p-8 text-white">
               <h3 className="text-xl font-semibold mb-3 font-heading">
                 Need a quote?
               </h3>
-              <p className="mb-4 text-blue-100">
+              <p className="mb-4 text-[#e4d4ff]">
                 Get your personalized life insurance quote in under 60 seconds.
               </p>
               <Link
                 href="/#quote-form"
-                className="block text-center rounded-lg bg-white px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 transition-colors"
+                className="block text-center rounded-lg bg-white px-4 py-2 text-[#261538] font-semibold hover:bg-gray-100 transition-colors"
               >
                 Get Free Quote
               </Link>
