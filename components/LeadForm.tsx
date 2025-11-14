@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { useSourceTracking } from '@/contexts/SourceTrackingContext';
 
 const US_STATES = [
   'Alabama',
@@ -56,6 +57,7 @@ const US_STATES = [
 ];
 
 export default function LeadForm() {
+  const { getTrackingData } = useSourceTracking();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -73,19 +75,31 @@ export default function LeadForm() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // Simulate form submission - Replace with actual API call
+    // Get tracking data
+    const trackingData = getTrackingData();
+
+    // Prepare submission data with tracking information
+    const submissionData = {
+      ...formData,
+      source: trackingData.source,
+      context: trackingData.context,
+    };
+
+    // Submit form to API
     try {
-      // TODO: Replace with actual API endpoint
-      // await fetch('/api/leads', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      console.log('Lead submitted:', formData);
+      const response = await fetch('/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to submit form');
+      }
+
+      const result = await response.json();
+      console.log('Lead submitted successfully:', result);
       setSubmitStatus('success');
       setFormData({
         fullName: '',
@@ -97,6 +111,7 @@ export default function LeadForm() {
         coverageType: '',
       });
     } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

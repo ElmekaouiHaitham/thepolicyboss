@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next"
+import { SourceTrackingProvider } from "@/contexts/SourceTrackingContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -89,10 +90,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${poppins.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
-        <Analytics />
+        <SourceTrackingProvider>
+          <Header />
+          {children}
+          <Footer />
+          <Analytics />
+        </SourceTrackingProvider>
       </body>
     </html>
   );
