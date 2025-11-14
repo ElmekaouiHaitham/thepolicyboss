@@ -299,7 +299,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       href={`#${item.id}`}
                       className="text-[#261538] hover:text-[#3b205d] hover:bg-[#f5efff] rounded-lg px-3 py-2 transition-all flex items-start gap-3 group"
                     >
-                      <span className="text-[#6f4ba1] font-semibold mt-0.5 min-w-[24px] group-hover:text-[#3b205d]">{index + 1}.</span>
+                      <span className="text-[#6f4ba1] font-semibold mt-0.5 min-w-6 group-hover:text-[#3b205d]">{index + 1}.</span>
                       <span className="flex-1">{item.text}</span>
                       <svg className="w-4 h-4 text-[#9a7cc9] mt-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
