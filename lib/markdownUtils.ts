@@ -1,6 +1,6 @@
 /**
  * Markdown utilities for parsing frontmatter and content
- * Supports YAML frontmatter format for blog metadata
+ * Supports simple YAML frontmatter format for blog metadata
  */
 
 export interface BlogMetadata {
@@ -25,75 +25,97 @@ export interface HeadingItem {
 
 /**
  * Parse markdown content with YAML frontmatter
- * Format:
+ * Accepts frontmatter delimited by `---` on its own line.
+ *
+ * Example:
  * ---
  * title: Blog Title
  * excerpt: Short excerpt
  * category: Category Name
  * date: November 15, 2024
  * image: /path/to/image.png
- * ---
- * 
- * # Content starts here
+ * --- 
+ *
+ * # Content...
  */
 export function parseBlogMarkdown(content: string): ParsedBlog {
-  // Remove leading/trailing whitespace
-  content = content.trim();
+  // Normalize and trim
+  const trimmed = content.trim();
 
-  // Check if content starts with frontmatter
-  if (!content.startsWith('---')) {
-    throw new Error('Blog content must start with frontmatter (---)');
+  // Ensure it starts with '---' frontmatter delimiter on its own line
+  if (!trimmed.startsWith('---\n') && !trimmed.startsWith('---\r\n')) {
+    throw new Error('Blog content must start with frontmatter delimited by --- on its own line');
   }
 
-  // Find the closing frontmatter delimiter
-  const frontmatterEnd = content.indexOf('---', 3);
-  if (frontmatterEnd === -1) {
+  // Find the closing frontmatter delimiter (--- on its own line)
+  // Start searching after the initial `---\n`
+  const fmRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
+  const match = trimmed.match(fmRegex);
+  if (!match) {
     throw new Error('Invalid frontmatter: missing closing delimiter (---)');
   }
 
-  // Extract frontmatter and content
-  const frontmatterString = content.substring(3, frontmatterEnd).trim();
-  const bodyContent = content.substring(frontmatterEnd + 3).trim();
+  const frontmatterString = match[1].trim();
+  const bodyContent = trimmed.slice(match[0].length).trim();
 
-  // Parse YAML-like frontmatter
-  const metadata = parseYamlFrontmatter(frontmatterString);
+  // Parse YAML-like frontmatter into a record
+  const raw = parseYamlFrontmatter(frontmatterString);
 
   // Validate required fields
-  const required = ['title', 'excerpt', 'category', 'date', 'image'];
+  const required: (keyof BlogMetadata)[] = ['title', 'excerpt', 'category', 'date', 'image'];
   for (const field of required) {
-    if (!metadata[field as keyof BlogMetadata]) {
+    if (!raw[field]) {
       throw new Error(`Missing required field in frontmatter: ${field}`);
     }
   }
 
-  return {
-    metadata: metadata as BlogMetadata,
-    content: bodyContent,
+  // Build typed metadata object explicitly (safe conversion)
+  const metadata: BlogMetadata = {
+    title: raw.title,
+    excerpt: raw.excerpt,
+    category: raw.category,
+    date: raw.date,
+    image: raw.image,
+    slug: raw.slug ?? generateBlogSlug(raw.title),
   };
+
+  return { metadata, content: bodyContent };
 }
 
 /**
  * Simple YAML-like frontmatter parser
+ * - Only supports simple `key: value` pairs (strings)
+ * - Does not support nested structures, lists, or complex YAML
  */
 function parseYamlFrontmatter(yaml: string): Record<string, string> {
   const metadata: Record<string, string> = {};
-  const lines = yaml.split('\n');
+  // split by line breaks supporting CRLF and LF
+  const lines = yaml.split(/\r?\n/);
 
   for (const line of lines) {
     const trimmed = line.trim();
     if (!trimmed) continue;
 
+    // skip comments
+    if (trimmed.startsWith('#')) continue;
+
+    // find first colon
     const colonIndex = trimmed.indexOf(':');
     if (colonIndex === -1) continue;
 
     const key = trimmed.substring(0, colonIndex).trim();
     let value = trimmed.substring(colonIndex + 1).trim();
 
-    // Remove quotes if present
-    if ((value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))) {
+    // Remove surrounding quotes if present
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
       value = value.slice(1, -1);
     }
+
+    // Unescape common escapes for convenience (e.g. \" inside quotes)
+    value = value.replace(/\\"/g, '"').replace(/\\'/g, "'");
 
     metadata[key] = value;
   }
@@ -105,13 +127,24 @@ function parseYamlFrontmatter(yaml: string): Record<string, string> {
  * Generate frontmatter string from metadata
  */
 export function generateFrontmatter(metadata: BlogMetadata): string {
-  return `---
-title: "${metadata.title}"
-excerpt: "${metadata.excerpt.replace(/"/g, '\\"')}"
-category: "${metadata.category}"
-date: "${metadata.date}"
-image: "${metadata.image}"
----`;
+  const lines: string[] = [];
+  lines.push('---');
+  lines.push(`title: "${escapeForFrontmatter(metadata.title)}"`);
+  lines.push(`excerpt: "${escapeForFrontmatter(metadata.excerpt)}"`);
+  lines.push(`category: "${escapeForFrontmatter(metadata.category)}"`);
+  lines.push(`date: "${escapeForFrontmatter(metadata.date)}"`);
+  lines.push(`image: "${escapeForFrontmatter(metadata.image)}"`);
+
+  if (metadata.slug) {
+    lines.push(`slug: "${escapeForFrontmatter(metadata.slug)}"`);
+  }
+
+  lines.push('---');
+  return lines.join('\n');
+}
+
+function escapeForFrontmatter(s: string): string {
+  return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
 
 /**
@@ -124,27 +157,23 @@ export function buildBlogMarkdown(metadata: BlogMetadata, content: string): stri
 /**
  * Extract headings from markdown content
  * Returns array of headings with IDs for table of contents
- * Skips H1 headings (top-level) and removes bold/italic formatting from heading text
+ * Skips H1 headings (top-level)
  */
 export function extractHeadings(markdown: string): HeadingItem[] {
   const headings: HeadingItem[] = [];
-  const lines = markdown.split('\n');
+  const lines = markdown.split(/\r?\n/);
 
   for (const line of lines) {
     const match = line.match(/^(#{1,6})\s+(.+)$/);
-    if (match) {
-      const level = match[1].length;
-      let text = match[2].trim();
-      
-      // Skip if it's a top-level heading (h1)
-      if (level === 1) continue;
+    if (!match) continue;
 
-      // Remove markdown formatting from heading text (bold, italic, links, etc.)
-      text = cleanHeadingText(text);
+    const level = match[1].length;
+    if (level === 1) continue; // skip H1
 
-      const id = slugify(text);
-      headings.push({ id, text, level });
-    }
+    let text = match[2].trim();
+    text = cleanHeadingText(text);
+    const id = slugify(text);
+    headings.push({ id, text, level });
   }
 
   return headings;
@@ -155,12 +184,13 @@ export function extractHeadings(markdown: string): HeadingItem[] {
  */
 function cleanHeadingText(text: string): string {
   return text
-    .replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
-    .replace(/\*(.+?)\*/g, '$1') // Remove italic
-    .replace(/__(.+?)__/g, '$1') // Remove bold (alternative)
-    .replace(/_(.+?)_/g, '$1') // Remove italic (alternative)
-    .replace(/\[(.+?)\]\(.+?\)/g, '$1') // Remove links, keep text
-    .replace(/`(.+?)`/g, '$1') // Remove inline code
+    .replace(/\*\*(.+?)\*\*/g, '$1') // bold
+    .replace(/\*(.+?)\*/g, '$1') // italic
+    .replace(/__(.+?)__/g, '$1') // bold alternative
+    .replace(/_(.+?)_/g, '$1') // italic alternative
+    .replace(/\[(.+?)\]\((?:.+?)\)/g, '$1') // links: [text](href)
+    .replace(/`(.+?)`/g, '$1') // inline code
+    .replace(/!\[(.*?)\]\((?:.*?)\)/g, '$1') // images: keep alt text
     .trim();
 }
 
@@ -170,10 +200,12 @@ function cleanHeadingText(text: string): string {
 export function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
+    .normalize('NFKD')                // normalize accents
+    .replace(/[\u0300-\u036f]/g, '')  // remove diacritics
+    .replace(/[^\w\s-]/g, '')         // remove non-word chars
+    .trim()
     .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+    .replace(/-+/g, '-');
 }
 
 /**
@@ -185,11 +217,14 @@ export function generateBlogSlug(title: string): string {
 
 /**
  * Add IDs to headings in markdown for anchor links
+ * Adds `{#slug}` after headings H2..H6
  */
 export function addHeadingIds(markdown: string): string {
   return markdown.replace(/^(#{2,6})\s+(.+)$/gm, (match, hashes, text) => {
     const cleanText = cleanHeadingText(text);
     const id = slugify(cleanText);
+    // If the heading already contains an explicit {#id}, don't add another
+    if (/\{#[-\w]+\}\s*$/.test(text)) return match;
     return `${hashes} ${text} {#${id}}`;
   });
 }
