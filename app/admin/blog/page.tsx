@@ -73,7 +73,7 @@ export default function AdminBlogPage() {
   // Protection code state
   const [protectionCode, setProtectionCode] = useState('');
   const [isProtected, setIsProtected] = useState(true);
-  const protectionCodeEnv = process.env.ADMIN_PROTECTION_CODE || '';
+  const protectionCodeEnv = process.env.NEXT_PUBLIC_ADMIN_PROTECTION_CODE;
 
   const [formData, setFormData] = useState<BlogFormData>({
     title: '',
