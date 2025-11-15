@@ -5,9 +5,14 @@ export interface BlogPost {
   category: string;
   date: string;
   image: string;
-  content: string[];
+  content: string; // markdown content
 }
 
+// Legacy blog posts - now using markdown files in data/blogs/
+// This file is kept for backward compatibility but should not be used
+// Old blog posts array removed - all blogs are now in markdown files
+const blogPosts: BlogPost[] = [] as BlogPost[]; // Empty array for type compatibility
+/* Old blog posts removed - using markdown files instead
 const blogPosts: BlogPost[] = [
   {
     slug: '5-things-to-know-before-buying-life-insurance',
@@ -158,13 +163,15 @@ const blogPosts: BlogPost[] = [
     ],
   },
 ];
+*/
 
-export function getBlogPosts() {
-  return blogPosts;
+// These functions are deprecated - blogs are now loaded from markdown files via API
+export function getBlogPosts(): BlogPost[] {
+  return [];
 }
 
-export function getBlogPostBySlug(slug: string) {
-  return blogPosts.find((post) => post.slug === slug) ?? null;
+export function getBlogPostBySlug(slug: string): BlogPost | null {
+  return null;
 }
 
 export function getBlogCategories() {

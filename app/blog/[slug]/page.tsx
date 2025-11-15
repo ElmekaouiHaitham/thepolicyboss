@@ -3,35 +3,178 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
-import { getBlogPostBySlug, getBlogPosts } from '@/data/blogPosts';
 import { fetchBlogPost } from '@/lib/blogApi';
+import { marked } from 'marked';
+import TOC from '@/components/TOC';
+
+// Helper function to strip HTML tags from text and decode entities
+function stripHtml(html: string): string {
+  // Strip HTML tags
+  let text = html.replace(/<[^>]*>/g, '');
+  // Decode common HTML entities
+  const entityMap: { [key: string]: string } = {
+    '&nbsp;': ' ',
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#039;': "'",
+    '&apos;': "'",
+  };
+  // Replace entities
+  for (const [entity, char] of Object.entries(entityMap)) {
+    text = text.replace(new RegExp(entity, 'g'), char);
+  }
+  // Remove any remaining entities
+  text = text.replace(/&#\d+;/g, '');
+  text = text.replace(/&[a-z]+;/gi, '');
+  return text.trim();
+}
+
+// Helper function to create URL-friendly slug from text
+function slugify(text: string | unknown): string {
+  // Ensure we have a string
+  let plainText: string;
+  if (typeof text === 'string') {
+    plainText = stripHtml(text);
+  } else if (text == null) {
+    plainText = '';
+  } else {
+    plainText = String(text);
+  }
+  
+  return plainText
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+// Parse markdown content and extract only key headings for TOC (h2 and h3 only)
+function parseMarkdownHeadings(markdown: string): Array<{ text: string; id: string; level: number }> {
+  const headings: Array<{ text: string; id: string; level: number }> = [];
+  const lines = markdown.split('\n');
+  
+  // Helper to extract clean text from markdown-formatted heading
+  const extractCleanText = (text: string): string => {
+    // Remove bold formatting
+    let cleaned = text.replace(/\*\*(.+?)\*\*/g, '$1');
+    // Remove italic formatting
+    cleaned = cleaned.replace(/\*(.+?)\*/g, '$1');
+    cleaned = cleaned.replace(/__(.+?)__/g, '$1');
+    cleaned = cleaned.replace(/_(.+?)_/g, '$1');
+    // Remove links, keeping just the text
+    cleaned = cleaned.replace(/\[(.+?)\]\(.+?\)/g, '$1');
+    // Remove inline code
+    cleaned = cleaned.replace(/`(.+?)`/g, '$1');
+    // Remove emojis and special characters that might be in headings
+    cleaned = cleaned.replace(/[🔹🔸🟦🟧🟩📌🔢#️⃣🧩❤️⚙️🧮🔖]/g, '').trim();
+    return cleaned.trim();
+  };
+  
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    
+    // Only match h2 (##) and h3 (###) - these are the key structural elements
+    const h2Match = trimmed.match(/^##\s+(.+)$/);
+    const h3Match = trimmed.match(/^###\s+(.+)$/);
+    
+    if (h2Match) {
+      const text = extractCleanText(h2Match[1]);
+      if (text) {
+        headings.push({ text, level: 2, id: slugify(text) });
+      }
+    } else if (h3Match) {
+      const text = extractCleanText(h3Match[1]);
+      if (text) {
+        headings.push({ text, level: 3, id: slugify(text) });
+      }
+    }
+  });
+  
+  return headings;
+}
+
+// Render markdown with heading IDs and SEO-friendly styling
+function renderMarkdown(markdown: string): string {
+  // Configure marked options
+  const markedOptions = {
+    breaks: true,
+    gfm: true,
+  };
+
+  // First, render the markdown to HTML
+  // marked v17 returns a string (synchronous)
+  const html = marked(markdown, markedOptions) as string;
+  
+  // Post-process: Add IDs, SEO attributes, and custom styling to all headings
+  // Match headings: <h1>...</h1>, <h2>...</h2>, etc. (with or without existing attributes)
+  // Using [\s\S] instead of . with 's' flag for better compatibility
+  const processedHtml = html.replace(/<h([1-6])([^>]*)>([\s\S]*?)<\/h[1-6]>/gi, (match: string, level: string, attrs: string, content: string) => {
+    // Extract text from HTML content (strip tags)
+    const plainText = stripHtml(content);
+    const id = slugify(plainText);
+    const levelNum = parseInt(level);
+
+    // Skip if ID already exists
+    if (attrs && attrs.includes('id=')) {
+      const existingIdMatch = attrs.match(/id="([^"]+)"/);
+      const existingId = existingIdMatch ? existingIdMatch[1] : id;
+      
+      switch (levelNum) {
+        case 2: // H2 - Main section heading (large, bold, with underline)
+          return `<div class="mt-10 mb-6"><h${level} id="${existingId}" class="text-3xl font-bold text-gray-900 mb-3 font-heading scroll-mt-20 flex items-center gap-3 group">${content}<a href="#${existingId}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#6f4ba1] hover:text-[#3b205d]" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}><div class="h-1 w-24 bg-linear-to-r from-[#261538] via-[#3b205d] to-[#6f4ba1] rounded-full"></div></div>`;
+        case 3: // H3 - Subsection heading (medium, semibold, colored)
+          return `<div class="mt-8 mb-4"><h${level} id="${existingId}" class="text-2xl font-semibold text-[#3b205d] mb-2 font-heading scroll-mt-20 flex items-center gap-3 group">${content}<a href="#${existingId}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#9a7cc9] hover:text-[#261538]" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}><div class="h-0.5 w-16 bg-linear-to-r from-[#3b205d] to-[#9a7cc9] rounded-full"></div></div>`;
+        case 4: // H4 - Small subsection (smaller, with left accent)
+          return `<div class="mt-6 mb-3"><h${level} id="${existingId}" class="text-xl font-semibold text-gray-800 mb-2 font-heading scroll-mt-20 flex items-start gap-3 group">${content}<a href="#${existingId}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#9a7cc9] hover:text-[#261538] mt-0.5" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}></div>`;
+        default: // H5, H6
+          return `<h${level} id="${existingId}" class="scroll-mt-20">${content}</h${level}>`;
+      }
+    }
+    
+    // Apply styling based on heading level
+    switch (levelNum) {
+      case 2: // H2 - Main section heading (large, bold, with underline)
+        return `<div class="mt-10 mb-6"><h${level} id="${id}" class="text-3xl font-bold text-gray-900 mb-3 font-heading scroll-mt-20 flex items-center gap-3 group">${content}<a href="#${id}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#6f4ba1] hover:text-[#3b205d]" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}><div class="h-1 w-24 bg-linear-to-r from-[#261538] via-[#3b205d] to-[#6f4ba1] rounded-full"></div></div>`;
+      case 3: // H3 - Subsection heading (medium, semibold, colored)
+        return `<div class="mt-8 mb-4"><h${level} id="${id}" class="text-2xl font-semibold text-[#3b205d] mb-2 font-heading scroll-mt-20 flex items-center gap-3 group">${content}<a href="#${id}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#9a7cc9] hover:text-[#261538]" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}><div class="h-0.5 w-16 bg-linear-to-r from-[#3b205d] to-[#9a7cc9] rounded-full"></div></div>`;
+      case 4: // H4 - Small subsection (smaller, with left accent)
+        return `<div class="mt-6 mb-3"><h${level} id="${id}" class="text-xl font-semibold text-gray-800 mb-2 font-heading scroll-mt-20 flex items-start gap-3 group">${content}<a href="#${id}" class="opacity-0 group-hover:opacity-100 transition-opacity text-[#9a7cc9] hover:text-[#261538] mt-0.5" aria-label="Link to ${plainText}" aria-hidden="true"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></a></h${level}></div>`;
+      default: // H5, H6
+        return `<h${level} id="${id}" class="scroll-mt-20">${content}</h${level}>`;
+    }
+  });
+
+  return processedHtml;
+}
 
 export async function generateStaticParams() {
-  return getBlogPosts().map((post) => ({
-    slug: post.slug,
-  }));
+  // This will be handled dynamically now
+  return [];
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await fetchBlogPost(slug);
 
   if (!post) {
     return {};
   }
 
   const url = `https://thepolicyboss.com/blog/${slug}`;
-  const excerpt =
-    post.content.find((paragraph) => paragraph.length > 100 && !/^\d+\./.test(paragraph)) ??
-    post.content[0];
+  // Extract excerpt from markdown (first paragraph)
+  const firstParagraph = post.content.split('\n\n').find(p => p.trim().length > 50) || post.excerpt;
+  const excerpt = firstParagraph.substring(0, 160);
 
   return {
     title: post.title,
-    description: excerpt.substring(0, 160),
+    description: excerpt,
     keywords: [
       post.category.toLowerCase(),
       'life insurance',
@@ -40,7 +183,7 @@ export async function generateMetadata({
     ],
     openGraph: {
       title: post.title,
-      description: excerpt.substring(0, 160),
+      description: excerpt,
       url,
       type: 'article',
       publishedTime: new Date(post.date).toISOString(),
@@ -50,7 +193,7 @@ export async function generateMetadata({
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: excerpt.substring(0, 160),
+      description: excerpt,
     },
     alternates: {
       canonical: url,
@@ -58,83 +201,7 @@ export async function generateMetadata({
   };
 }
 
-// Helper function to create URL-friendly slug from text
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
-}
-
-// Helper function to identify if a line is a heading
-function isHeading(line: string, index: number, allLines: string[]): boolean {
-  // Lines starting with numbers (1., 2., etc.)
-  if (/^\d+\.\s/.test(line)) {
-    return true;
-  }
-  
-  // Short lines that are likely headings (less than 60 chars, not ending with period)
-  if (line.length < 60 && !line.endsWith('.') && line.length > 5) {
-    // Check if next line is a paragraph (longer text)
-    const nextLine = allLines[index + 1];
-    if (nextLine && nextLine.length > 100) {
-      return true;
-    }
-  }
-  
-  return false;
-}
-
-// Parse content into structured sections
-function parseContent(content: string[]) {
-  const sections: Array<{ type: 'intro' | 'heading' | 'paragraph'; text: string; id?: string; level?: number }> = [];
-  const toc: Array<{ text: string; id: string; level: number }> = [];
-  
-  let introAdded = false;
-  
-  for (let i = 0; i < content.length; i++) {
-    const line = content[i];
-    
-    if (isHeading(line, i, content)) {
-      // Remove number prefix if present (e.g., "1. Heading" -> "Heading")
-      const headingText = line.replace(/^\d+\.\s*/, '');
-      const id = slugify(headingText);
-      const level = /^\d+\.\s/.test(line) ? 2 : 2; // Main headings are H2
-      
-      sections.push({
-        type: 'heading',
-        text: headingText,
-        id,
-        level,
-      });
-      
-      toc.push({
-        text: headingText,
-        id,
-        level,
-      });
-    } else if (!introAdded && line.length > 100) {
-      // First long paragraph is the intro
-      sections.push({
-        type: 'intro',
-        text: line,
-      });
-      introAdded = true;
-    } else {
-      // Regular paragraph
-      sections.push({
-        type: 'paragraph',
-        text: line,
-      });
-    }
-  }
-  
-  return { sections, toc };
-}
-
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await fetchBlogPost(slug);
 
@@ -143,18 +210,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   const url = `https://thepolicyboss.com/blog/${slug}`;
-  const excerpt =
-    post.content.find((paragraph) => paragraph.length > 100 && !/^\d+\./.test(paragraph)) ??
-    post.content[0];
+  // Extract excerpt from markdown (first paragraph)
+  const firstParagraph = post.content.split('\n\n').find(p => p.trim().length > 50) || post.excerpt;
+  const excerpt = firstParagraph.substring(0, 160);
   
-  // Parse content into structured sections
-  const { sections, toc } = parseContent(post.content);
+  // Parse markdown and generate TOC
+  const toc = parseMarkdownHeadings(post.content);
+  const htmlContent = renderMarkdown(post.content);
 
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
-    "description": excerpt.substring(0, 160),
+    "description": excerpt,
     "image": post.image,
     "datePublished": new Date(post.date).toISOString(),
     "dateModified": new Date(post.date).toISOString(),
@@ -212,12 +280,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const faqSchema = toc.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": toc.slice(0, 5).map((item, index) => ({
+    "mainEntity": toc.slice(0, 5).map((item) => ({
       "@type": "Question",
       "name": item.text,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": sections.find(s => s.id === item.id && s.type === 'paragraph')?.text || excerpt.substring(0, 200)
+        "text": excerpt.substring(0, 200)
       }
     }))
   } : null;
@@ -283,82 +351,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
 
         {/* Table of Contents */}
-        {toc.length > 0 && (
-          <div className="mb-8 rounded-2xl bg-linear-to-br from-[#faf7ff] to-[#f3ecff] border border-[#e4d4ff] p-6 shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 font-heading flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#261538]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              Table of Contents
-            </h2>
-            <nav aria-label="Article table of contents">
-              <ol className="space-y-3">
-                {toc.map((item, index) => (
-                  <li key={item.id}>
-                    <a
-                      href={`#${item.id}`}
-                      className="text-[#261538] hover:text-[#3b205d] hover:bg-[#f5efff] rounded-lg px-3 py-2 transition-all flex items-start gap-3 group"
-                    >
-                      <span className="text-[#6f4ba1] font-semibold mt-0.5 min-w-6 group-hover:text-[#3b205d]">{index + 1}.</span>
-                      <span className="flex-1">{item.text}</span>
-                      <svg className="w-4 h-4 text-[#9a7cc9] mt-1 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          </div>
-        )}
+        {toc.length > 0 && <TOC items={toc} />}
 
         {/* Content */}
         <div className="rounded-2xl bg-white p-8 shadow-lg">
-          <div className="prose prose-lg max-w-none" itemProp="articleBody">
-            {sections.map((section, index) => {
-              if (section.type === 'intro') {
-                return (
-                  <div key={index} className="mb-8">
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6 font-medium">
-                      {section.text}
-                    </p>
-                    <hr className="border-gray-200 my-8" />
-                  </div>
-                );
-              }
-              
-              if (section.type === 'heading') {
-                const HeadingTag = section.level === 2 ? 'h2' : 'h3';
-                return (
-                  <div key={index} className="mt-12 mb-6">
-                    <HeadingTag
-                      id={section.id}
-                      className="text-2xl font-semibold text-gray-900 mb-4 font-heading scroll-mt-20 flex items-center gap-3 group"
-                    >
-                      <span>{section.text}</span>
-                      <a
-                        href={`#${section.id}`}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-[#6f4ba1] hover:text-[#3b205d]"
-                        aria-label={`Link to ${section.text}`}
-                        aria-hidden="true"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                      </a>
-                    </HeadingTag>
-                    <div className="h-1 w-20 bg-linear-to-r from-[#3b205d] to-[#7c57b3] rounded-full"></div>
-                  </div>
-                );
-              }
-              
-              return (
-                <p key={index} className="text-gray-700 leading-relaxed mb-6 text-base">
-                  {section.text}
-                </p>
-              );
-            })}
-          </div>
+          <div 
+            className="markdown-content"
+            itemProp="articleBody"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+            style={{
+              lineHeight: '1.75',
+            }}
+          />
 
           {/* CTA Box */}
           <div className="mt-12 rounded-lg bg-linear-to-r from-[#faf7ff] to-[#f3ecff] p-6 border-l-4 border-[#261538]">
@@ -406,4 +410,3 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     </>
   );
 }
-
