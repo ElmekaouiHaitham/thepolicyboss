@@ -51,9 +51,7 @@ You want enough coverage to protect your loved ones — not too little, not too 
 
 ### General formula:
 
-$$
-x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
-$$
+$Coverage = (Annual Income × 10) + Debts + Mortgage – Current Savings$
 
 
 ### Consider:

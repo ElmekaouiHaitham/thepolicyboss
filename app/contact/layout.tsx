@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import 'katex/dist/katex.min.css'
 
 export const metadata: Metadata = {
   title: "Contact Us - Get in Touch | The Policy Boss",
