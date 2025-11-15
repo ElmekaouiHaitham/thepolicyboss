@@ -5,13 +5,7 @@ import type { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
 import { fetchBlogPost } from '@/lib/blogApi';
 import { marked } from 'marked';
-import markedKatex from 'marked-katex-extension';
 import TOC from '@/components/TOC';
-
-
-marked.use(markedKatex({
-  throwOnError: false // Good practice: doesn't crash the build on a bad formula
-}));
 
 // Helper function to strip HTML tags from text and decode entities
 function stripHtml(html: string): string {
