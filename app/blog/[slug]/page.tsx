@@ -8,6 +8,11 @@ import { marked } from 'marked';
 import markedKatex from 'marked-katex-extension';
 import TOC from '@/components/TOC';
 
+
+marked.use(markedKatex({
+  throwOnError: false // Good practice: doesn't crash the build on a bad formula
+}));
+
 // Helper function to strip HTML tags from text and decode entities
 function stripHtml(html: string): string {
   // Strip HTML tags
@@ -105,10 +110,6 @@ function renderMarkdown(markdown: string): string {
     gfm: true,
   };
 
-  marked.use(markedKatex({
-    throwOnError: false // Good practice: doesn't crash the build on a bad formula
-  }));
-  
   // First, render the markdown to HTML
   // marked v17 returns a string (synchronous)
   const html = marked(markdown, markedOptions) as string;
