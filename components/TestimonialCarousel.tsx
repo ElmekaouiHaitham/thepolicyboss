@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 2,
-    text: "Quick, easy, and I actually understood my options.",
+    text: "Smooth and easy no complaints here.",
     author: "Michael R.",
   },
   {
