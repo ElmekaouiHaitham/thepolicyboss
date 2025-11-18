@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
 import AnimatedHero from "@/components/AnimatedHero";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
+import StoryHighlight from "@/components/StoryHighlight";
 import { fetchBlogSummaries } from "@/lib/blogApi";
 import type { BlogSummary } from "@/types/blog";
 import { socialLinks } from "@/lib/socialLinks";
@@ -292,6 +293,9 @@ export default async function Home() {
               </h2>
             </div>
             <TestimonialCarousel />
+
+            {/* Story Highlight Section */}
+            <StoryHighlight />
 
             {/* Trust Badges */}
             <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-gray-600">
