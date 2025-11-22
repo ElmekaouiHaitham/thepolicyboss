@@ -14,14 +14,16 @@ const testimonials: Testimonial[] = [
     text: "Made finding insurance stress-free — thank you!",
     author: "Sarah M.",
   },
+  // real
   {
     id: 2,
     text: "Smooth and easy no complaints here.",
     author: "Michael R.",
   },
+  // real
   {
     id: 3,
-    text: "The process was so straightforward. Highly recommend!",
+    text: "Chanelle delivers top-tier service with maximum speed. We secured our insurance over the phone before my lunch hour was even up. Highly recommend!",
     author: "Jennifer L.",
   },
   {
