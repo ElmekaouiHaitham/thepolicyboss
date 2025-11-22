@@ -11,13 +11,13 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    text: "Made finding insurance stress-free — thank you!",
+    text: "Made finding insurance stress-free — thank you!                                                                                                   ",
     author: "Sarah M.",
   },
   // real
   {
     id: 2,
-    text: "Smooth and easy no complaints here.",
+    text: "Smooth and easy no complaints here.                                                                                                               ",
     author: "Michael R.",
   },
   // real
